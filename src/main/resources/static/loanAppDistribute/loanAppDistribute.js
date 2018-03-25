@@ -304,7 +304,7 @@ function reviewUserOption_query() {
 	selectObj["id"] = 'query_reviewUser';
 	selectObj["param"] = param;
 	selectObj["valueParam"] = 'userName';
-	selectObj["htmlParam"] = 'userName';
+	selectObj["htmlParam"] = 'realName';
 	selectObj["defaultSelectedValue"] = null;
 	var selectOption = new SelectOption();
 	selectOption.clear('query_reviewUser');
