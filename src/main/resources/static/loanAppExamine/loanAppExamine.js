@@ -71,7 +71,7 @@ var getPk = function(btn){
 	return pk;
 };
 /**
- * 获得loanId
+ * 获得columnValue
  */
 var getColumn = function(btn){
 	var columnValue = $(btn).parent().parent().parent().attr("columnValue");

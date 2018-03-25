@@ -37,32 +37,112 @@ var loadsoftDetInfo = function(data) {
 				    if(object.businessTypes=="1")
 					{
 				    	businessTypeDesc="商用房";
-				    	remark1Desc="";
-				    	remark2Desc="";
+				    	if(object.syfRemark1=='1')
+			    		{
+				    		remark1Desc="商业房按揭-商铺、写字楼";
+			    		}
+				    	else if(object.syfRemark1=='2')
+			    		{
+				    		remark1Desc="商业房按揭-车位";
+			    		}
+				    	else
+			    		{
+				    		remark1Desc=object.syfRemark1;
+			    		}
+				    	//remark1Desc="";
+				    	remark2Desc=object.syfRemark2;
 					}
 					else if(object.businessTypes=="2")
 					{
 						businessTypeDesc="消费贷款";
-						remark1Desc="";
+						//remark1Desc="";
+						if(object.xfdkRemark=='1')
+			    		{
+				    		remark1Desc="消费-普通";
+			    		}
+				    	else if(object.xfdkRemark=='2')
+			    		{
+				    		remark1Desc="消费-公喜贷";
+			    		}
+				    	else
+			    		{
+				    		remark1Desc=object.xfdkRemark;
+			    		}
+						$("#remark2Td").hide();
+						$("#remark2Val").hide();
 					}else if(object.businessTypes=="3")
 					{
 						businessTypeDesc="经营贷款";
-						remark1Desc="";
-				    	remark2Desc="";
+						if(object.jydkRemark1=='1')
+			    		{
+				    		remark1Desc="经营-普通";
+			    		}
+				    	else if(object.jydkRemark1=='2')
+			    		{
+				    		remark1Desc="经营-创业小额贷款";
+			    		}
+				    	else if(object.jydkRemark1=='3')
+			    		{
+				    		remark1Desc="经营-工会失业人员小额担保贷款";
+			    		}
+				    	else if(object.jydkRemark1=='4')
+			    		{
+				    		remark1Desc="经营-妇联失业人员小额担保贷款";
+			    		}
+				    	else if(object.jydkRemark1=='5')
+			    		{
+				    		remark1Desc="经营-红色信贷";
+			    		}
+				    	else
+			    		{
+				    		remark1Desc=object.xfdkRemark;
+			    		}
+						//remark1Desc=object.jydkRemark1;
+				    	remark2Desc=object.jydkRemark2;
 					}else if(object.businessTypes=="4")
 					{
 						businessTypeDesc="农户小额信用贷款";
-						remark1Desc="";
+						if(object.nhxexydkRemark=='1')
+			    		{
+				    		remark1Desc="消费";
+			    		}
+				    	else if(object.nhxexydkRemark=='2')
+			    		{
+				    		remark1Desc="经营";
+			    		}
+				    	else
+			    		{
+				    		remark1Desc=object.nhxexydkRemark;
+			    		}
+						$("#remark2Td").hide();
+						$("#remark2Val").hide();
+						//remark1Desc="";
 					}else if(object.businessTypes=="5")
 					{
 						businessTypeDesc="二手房按揭";
-						remark1Desc="";
+						if(object.esfajRemark=='1')
+			    		{
+				    		remark1Desc="尊园";
+			    		}
+				    	else if(object.esfajRemark=='2')
+			    		{
+				    		remark1Desc="其他中介";
+			    		}
+				    	else
+			    		{
+				    		remark1Desc=object.esfajRemark;
+			    		}
+						//remark1Desc="";
+						$("#remark2Td").hide();
+						$("#remark2Val").hide();
 					}
 					else {
 						businessTypeDesc=object.businessTypes;
 					}
 				    $("#businessTypes").html(businessTypeDesc);
+				  
 				    $("#remark1").html(remark1Desc);
+				    
 				    $("#remark2").html(remark2Desc);
 				    $("#amount").html(object.amount);
 					$("#term").html(object.term);

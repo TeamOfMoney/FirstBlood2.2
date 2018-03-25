@@ -89,7 +89,8 @@ var loadData = function(){
 	gridObj["defaultBtns"] = defaultBtns;
 	gridObj["operateBtns"] = operateBtns;
 	gridObj["pk"] = "loanId";
-	gridObj["loanId"] = "loanId";
+	//如果需要获取列表中其余字段值
+	gridObj["columnValue"] = "processStat";
 	gridObj["page"] = true;
 	gridObj["checked"]=false;
 	
@@ -107,11 +108,11 @@ var getPk = function(btn){
 	return pk;
 };
 /**
- * 获得loanId
+ * 获得columnValue
  */
-var getLoanId = function(btn){
-	var loanId = $(btn).parent().parent().parent().attr("loanId");
-	return loanId;
+var getColumn = function(btn){
+	var columnValue = $(btn).parent().parent().parent().attr("columnValue");
+	return columnValue;
 };
 
 /**
@@ -260,11 +261,20 @@ var editBtn = function(btn){
  */
 var supply = function(btn){
 	var pk = getPk(btn);
-	nowOperate = "edit";
-	$("#action").html('贷款申请补件');
-	showModel();
-	//$("#addFirmNum").attr("disabled",true);
-	editDataFill(pk);
+	var processStat = getColumn(btn)
+	//判断当前记录processStat为补件，否则提示不可补件
+	if(processStat.indexOf("补件")>0)
+	{
+		nowOperate = "edit";
+		$("#action").html('贷款申请补件');
+		showModel();
+		//$("#addFirmNum").attr("disabled",true);
+		editDataFill(pk);
+	}
+	else
+	{
+		util.sysAlert("当前申请进度为["+processStat+"],不允许补件！");
+	}
 	
 };
 
@@ -629,7 +639,7 @@ var getAddParam = function(){
  * @return
  */
 var getEditParam = function(){
-	var loanId = getPk($("#addOrEditSaveBtn"));
+	var loanId = $("#addLoanId").val();
 	var addBorrowerName = $("#addBorrowerName").val();
 	var addSpouseName = $("#addSpouseName").val();
 	var addSex = $("#addSex").val();
@@ -753,13 +763,57 @@ var getEditParam = function(){
 		store_new['sex']=addSex;
 		store_new['credentialNo']=addCredentialNo;
 		store_new['businessType']=addBusinessTypes;
-		store_new['syfRemark1']=addSyfRemark1;
-		store_new['syfRemark2']=addSyfRemark2;
-		store_new['xfdkRemark']=addXfdkRemark;
-		store_new['jydkRemark1']=addJydkRemark1;
-		store_new['jydkRemark2']=addJydkRemark2;
-		store_new['nhxexydkRemark']=addNhxexydkRemark;
-		store_new['esfajRemark']=addEsfajRemark;
+		if(addSyfRemark1=='0')
+		{
+			store_new['syfRemark1']=null;
+		}
+		else{
+			store_new['syfRemark1']=addSyfRemark1;
+		}
+		if(addSyfRemark2=="")
+		{
+			store_new['syfRemark2']=null;
+		}
+		else{
+			store_new['syfRemark2']=addSyfRemark2;
+		}
+		
+		if(addXfdkRemark=='0')
+		{
+			store_new['xfdkRemark']=null;
+		}
+		else{
+			store_new['xfdkRemark']=addXfdkRemark;
+		}
+		if(addJydkRemark1=='0')
+		{
+			store_new['jydkRemark1']=null;
+		}
+		else{
+			store_new['jydkRemark1']=addJydkRemark1;
+		}
+		if(addJydkRemark2=="")
+		{
+			store_new['jydkRemark2']=null;
+		}
+		else{
+			store_new['jydkRemark2']=addJydkRemark2;
+		}
+		
+		if(addNhxexydkRemark=='0')
+		{
+			store_new['nhxexydkRemark']=null;
+		}
+		else{
+			store_new['nhxexydkRemark']=addNhxexydkRemark;
+		}
+		if(addEsfajRemark=='0')
+		{
+			store_new['esfajRemark']=null;
+		}
+		else{
+			store_new['esfajRemark']=addEsfajRemark;
+		}
 		store_new['amount']=addAmount;
 		store_new['term']=addTerm;
 		store_new['guaranteeMethod']=addGuaranteeMethod;
@@ -781,9 +835,11 @@ var getEditParam = function(){
 var update_old_data;
 var dataFill = function(data){
 	
-	var object = util.str2Json(data).data.loanInfo;
+	var obj = util.str2Json(data).data;
+	var object = obj.loanInfo
 	update_old_data=object;
 	
+	$("#addLoanId").val(obj.loanId);
 	$("#addBorrowerName").val(object.borrowerName);
 	$("#addSpouseName").val(object.spouseName);
 	$("#addSex").val(object.sex);
@@ -875,7 +931,7 @@ var dataFill = function(data){
 	store_old['spouseName']=object.spouseName;
 	store_old['sex']=object.sex;
 	store_old['credentialNo']=object.credentialNo;
-	store_old['businessType']=object.businessType;
+	store_old['businessType']=object.businessTypes;
 	store_old['syfRemark1']=object.syfRemark1;
 	store_old['syfRemark2']=object.syfRemark2;
 	store_old['xfdkRemark']=object.xfdkRemark;
