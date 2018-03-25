@@ -264,6 +264,24 @@ public class LoanApplicationService {
             e.printStackTrace();
             throw new ServiceException("贷款申请详细信息错误");
         }
+        //设置当前回执为空
+        loanApplication.setCurProcessFeedback("-");
+        //设置当前进度处理人为空
+        loanApplication.setCurProcessUser("-");
+        //设置当前进度状态
+        loanApplication.setProcessStat(LoanStat.WAIT.cnStr());
+        
+        String nowDate = DateUtil.getCurrentTime("yyyy-MM-dd");
+        //设置贷款提交时间
+        loanApplication.setInitTime(nowDate);
+        //设置流程最近更新时间
+        loanApplication.setCurProcessUpdateTime(nowDate);
+        //设置审查人员为空
+        loanApplication.setExamineHandler("-");
+        //设置进件处理人员为空
+        loanApplication.setSubmiteHandler("-");
+        //设置审批人员为空
+        loanApplication.setApprovalHandler("-");
         loanApplicationDao.save(loanApplication);
         return loanBean;
     }
